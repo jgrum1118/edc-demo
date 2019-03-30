@@ -4,6 +4,59 @@
   <artifactId>com.optum.chy.tmp.ggmap</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <applicationVersion>0.0.1</applicationVersion>
+  </properties>
+  
+  <build>
+    <finalName>${artifactId}_${applicationVersion}</finalName>
+    <sourceDirectory>src</sourceDirectory>
+  
+	<plugins>
+	  <plugin>
+	    <groupId>org.apache.felix</groupId>
+	    <artifactId>maven-bundle-plugin</artifactId>
+	    <extensions>true</extensions>
+	    <configuration>
+	      <instructions>
+			<Bundle-Version>${applicationVersion}</Bundle-Version>
+			<Bundle-Name>GGMAP_EDC_Analyzer</Bundle-Name>
+			<Bundle-SymbolicName>com.optum.chy.tmp.ggmap</Bundle-SymbolicName>
+		  </instructions>
+	    </configuration>
+	  </plugin>
+
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-assembly-plugin</artifactId>
+		  <version>2.6</version>
+		  <configuration>
+			<!-- get all project dependencies -->
+			<descriptorRefs>
+			  <descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+			<!-- MainClass in manifest make a executable jar -->
+			<archive>
+			  <manifest>
+			    <mainClass>com.optum.chy.tmp.ggmap.GGMAPClient</mainClass>
+			  </manifest>
+		    </archive>
+		  </configuration>
+		  <executions>
+			<execution>
+			  <id>make-assembly</id>
+			  <!-- bind to the packaging phase -->
+			  <phase>package</phase>
+			  <goals>
+				<goal>single</goal>
+			  </goals>
+			</execution>
+		  </executions>
+	  </plugin>	
+	</plugins>
+  </build>
+  
   <dependencies>
   	<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 	<dependency>
@@ -12,21 +65,5 @@
     	<version>2.8.0</version>
 	</dependency>
   </dependencies>
-  
-  <build>
-	<plugins>
-	  <plugin>
-	    <groupId>org.apache.maven.plugins</groupId>
-	    <artifactId>maven-jar-plugin</artifactId>
-		<configuration>
-		  <archive>
-			<manifest>
-			  <mainClass>com.optum.chy.tmp.ggmap.GGMAPClient</mainClass>
-			</manifest>
-		  </archive>
-		</configuration>
-	  </plugin>
-	</plugins>
-  </build>
   
 </project>
